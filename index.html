@@ -11,7 +11,9 @@
     --dark: #0d0d0f;
     --surface: #16171a;
     --surface2: #1e1f24;
+    --surface3: #26272d;
     --border: rgba(244,211,3,0.15);
+    --border2: rgba(244,211,3,0.08);
     --white: #f0f0f2;
     --muted: rgba(240,240,242,0.45);
     --green: #48bb78;
@@ -21,189 +23,233 @@
   html, body { height: 100%; }
   body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--white); display: flex; flex-direction: column; overflow: hidden; }
 
-  /* HEADER */
+  /* ── HEADER ── */
   .header {
-    padding: 13px 22px; border-bottom: 1px solid var(--border);
+    padding: 12px 20px; border-bottom: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
     background: rgba(13,13,15,0.98); flex-shrink: 0; z-index: 200;
   }
   .header-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; }
   .header-title span { color: var(--accent); }
-  .header-title small { color: var(--muted); font-weight: 400; font-size: 0.78rem; }
+  .header-title small { color: var(--muted); font-weight: 400; font-size: 0.75rem; }
 
-  .btn-primary {
-    display: flex; align-items: center; gap: 7px;
+  .btn-copy {
+    display: flex; align-items: center; gap: 6px;
     background: var(--accent); color: #111;
-    border: none; border-radius: 7px; padding: 9px 18px;
-    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.82rem;
-    cursor: pointer; transition: opacity 0.2s, transform 0.15s;
+    border: none; border-radius: 7px; padding: 8px 16px;
+    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.8rem;
+    cursor: pointer; transition: opacity 0.2s, transform 0.15s; flex-shrink: 0;
   }
-  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
-  .btn-primary.copied { background: var(--green); color: #fff; }
+  .btn-copy:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-copy.copied { background: var(--green); color: #fff; }
 
-  /* WORKSPACE */
-  .workspace { display: grid; grid-template-columns: 370px 1fr; flex: 1; overflow: hidden; min-height: 0; }
+  /* ── WORKSPACE ── */
+  .workspace { display: grid; grid-template-columns: 460px 1fr; flex: 1; overflow: hidden; min-height: 0; }
 
-  /* SIDEBAR */
+  /* ── SIDEBAR ── */
   .sidebar {
     background: var(--surface); border-right: 1px solid var(--border);
-    overflow-y: auto; padding: 18px 15px 60px;
-    display: flex; flex-direction: column; gap: 15px;
+    overflow-y: auto; padding: 16px 14px 60px;
+    display: flex; flex-direction: column; gap: 14px;
   }
   .sidebar::-webkit-scrollbar { width: 4px; }
   .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
   .section-label {
-    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--accent); margin-bottom: 7px;
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
   }
 
   .field { display: flex; flex-direction: column; gap: 4px; }
-  .field label { font-size: 0.74rem; font-weight: 500; color: var(--muted); }
-  .field input[type="text"], .field input[type="url"] {
-    background: var(--surface2); border: 1px solid rgba(244,211,3,0.12);
-    border-radius: 7px; color: var(--white);
-    font-family: 'Inter', sans-serif; font-size: 0.82rem;
-    padding: 8px 11px; outline: none; transition: border-color 0.2s; width: 100%;
+  .field label { font-size: 0.73rem; font-weight: 500; color: var(--muted); display: flex; align-items: center; justify-content: space-between; }
+  .field input[type="text"], .field input[type="url"], .field textarea {
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 7px; color: var(--white); font-family: 'Inter', sans-serif;
+    font-size: 0.8rem; padding: 7px 10px; outline: none; transition: border-color 0.2s; width: 100%;
   }
-  .field input:focus { border-color: var(--accent); }
+  .field input:focus, .field textarea:focus { border-color: var(--accent); }
+  .field textarea { min-height: 80px; resize: vertical; font-size: 0.75rem; line-height: 1.5; }
 
-  .color-row { display: grid; grid-template-columns: 1fr 40px; gap: 6px; align-items: end; }
+  .color-row { display: grid; grid-template-columns: 1fr 38px; gap: 6px; align-items: end; }
   .field input[type="color"] {
-    background: var(--surface2); border: 1px solid rgba(244,211,3,0.12);
-    border-radius: 7px; height: 36px; width: 100%; padding: 3px 4px; cursor: pointer; outline: none;
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 7px; height: 34px; width: 100%; padding: 3px 4px; cursor: pointer; outline: none;
   }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
   .toggle-row {
-    display: flex; align-items: center; gap: 9px; padding: 8px 11px;
-    background: var(--surface2); border: 1px solid rgba(244,211,3,0.12);
+    display: flex; align-items: center; gap: 8px; padding: 7px 10px;
+    background: var(--surface2); border: 1px solid var(--border2);
     border-radius: 7px; cursor: pointer; user-select: none; transition: border-color 0.2s;
   }
   .toggle-row:hover { border-color: var(--accent); }
   .toggle-row input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; cursor: pointer; }
-  .toggle-row span { font-size: 0.8rem; color: var(--muted); }
+  .toggle-row span { font-size: 0.78rem; color: var(--muted); }
 
   .divider-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(244,211,3,0.15), transparent); flex-shrink: 0; }
 
-  /* RICH TEXT */
+  /* ── RICH TEXT ── */
+  .block-wrap { border: 1px solid var(--border2); border-radius: 9px; overflow: hidden; background: var(--dark); }
+  .block-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 5px 8px; background: rgba(244,211,3,0.05); border-bottom: 1px solid var(--border2);
+    gap: 6px;
+  }
+  .block-label { font-size: 0.65rem; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  .block-header-right { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+
+  .seg-btn {
+    background: transparent; border: 1px solid var(--border2); border-radius: 4px;
+    color: var(--muted); cursor: pointer; font-size: 0.65rem; font-weight: 600;
+    padding: 2px 7px; transition: all 0.15s; font-family: 'Inter', sans-serif;
+  }
+  .seg-btn:hover { border-color: rgba(244,211,3,0.3); color: var(--white); }
+  .seg-btn.active { background: rgba(244,211,3,0.12); border-color: var(--accent); color: var(--accent); }
+
+  .block-remove {
+    background: transparent; border: none; color: var(--muted); cursor: pointer;
+    font-size: 0.8rem; padding: 2px 5px; border-radius: 4px; transition: all 0.15s; line-height: 1;
+  }
+  .block-remove:hover { color: var(--red); background: rgba(252,129,129,0.1); }
+
   .rich-toolbar {
-    display: flex; gap: 2px; flex-wrap: wrap; padding: 6px;
-    background: var(--dark); border: 1px solid rgba(244,211,3,0.12);
-    border-radius: 7px 7px 0 0;
+    display: flex; gap: 2px; flex-wrap: wrap; padding: 5px 6px;
+    background: #111113; border-bottom: 1px solid var(--border2); align-items: center;
   }
   .tb-btn {
     background: transparent; border: 1px solid transparent; border-radius: 4px;
     color: var(--muted); cursor: pointer; font-family: 'Inter', sans-serif;
-    font-size: 0.7rem; font-weight: 700; padding: 3px 7px; transition: all 0.15s; white-space: nowrap;
+    font-size: 0.68rem; font-weight: 700; padding: 3px 6px; transition: all 0.15s; white-space: nowrap;
   }
-  .tb-btn:hover { background: var(--surface2); border-color: rgba(244,211,3,0.2); color: var(--white); }
-  .tb-btn.accent { color: var(--accent); border-color: rgba(244,211,3,0.3); }
-  .tb-sep { width: 1px; background: rgba(244,211,3,0.12); margin: 2px 1px; flex-shrink: 0; }
+  .tb-btn:hover { background: var(--surface2); border-color: var(--border2); color: var(--white); }
+  .tb-sep { width: 1px; background: var(--border2); margin: 2px 1px; align-self: stretch; flex-shrink: 0; }
 
-  .tb-color-wrap { position: relative; display: flex; align-items: center; }
-  .tb-color-btn {
-    background: transparent; border: 1px solid transparent; border-radius: 4px;
-    color: var(--muted); cursor: pointer; font-family: 'Inter', sans-serif;
-    font-size: 0.7rem; font-weight: 700; padding: 3px 7px; transition: all 0.15s;
-    display: flex; align-items: center; gap: 3px; white-space: nowrap;
-  }
-  .tb-color-btn:hover { background: var(--surface2); border-color: rgba(244,211,3,0.2); color: var(--white); }
-  .tb-color-btn input[type="color"] {
-    position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; left: 0; top: 0;
-  }
-  .color-dot { width: 10px; height: 10px; border-radius: 50%; background: #f4d303; border: 1px solid rgba(255,255,255,0.2); flex-shrink: 0; }
-
+  /* FONT SIZE */
   .tb-size {
-    background: var(--surface2); border: 1px solid rgba(244,211,3,0.12); border-radius: 4px;
-    color: var(--white); font-family: 'Inter', sans-serif; font-size: 0.7rem;
-    padding: 3px 5px; outline: none; width: 52px; cursor: pointer;
+    background: var(--surface2); border: 1px solid var(--border2); border-radius: 4px;
+    color: var(--white); font-family: 'Inter', sans-serif; font-size: 0.68rem;
+    padding: 3px 4px; outline: none; width: 50px; cursor: pointer; height: 24px;
   }
-  .tb-size option { background: var(--surface2); }
+
+  /* COR POPUP */
+  .color-picker-wrap { position: relative; display: inline-flex; }
+  .color-trigger {
+    display: flex; align-items: center; gap: 4px; cursor: pointer;
+    background: transparent; border: 1px solid var(--border2); border-radius: 4px;
+    padding: 2px 6px; color: var(--muted); font-size: 0.68rem; font-weight: 700;
+    font-family: 'Inter', sans-serif; transition: all 0.15s; white-space: nowrap;
+  }
+  .color-trigger:hover { background: var(--surface2); border-color: rgba(244,211,3,0.2); color: var(--white); }
+  .color-dot { width: 9px; height: 9px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); flex-shrink: 0; }
+  .color-popup {
+    display: none; position: absolute; top: calc(100% + 4px); left: 0; z-index: 500;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 9px;
+    padding: 10px; gap: 8px; flex-direction: column; width: 200px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .color-popup.open { display: flex; }
+  .color-popup input[type="color"] { width: 100%; height: 100px; border: none; cursor: pointer; border-radius: 6px; padding: 0; }
+  .color-popup-hex {
+    background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px;
+    color: var(--white); font-family: 'Inter', sans-serif; font-size: 0.78rem;
+    padding: 6px 8px; outline: none; width: 100%; transition: border-color 0.2s;
+  }
+  .color-popup-hex:focus { border-color: var(--accent); }
+  .btn-apply-color {
+    background: var(--accent); color: #111; border: none; border-radius: 6px;
+    padding: 7px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.78rem;
+    cursor: pointer; transition: opacity 0.2s;
+  }
+  .btn-apply-color:hover { opacity: 0.85; }
 
   .editor {
-    min-height: 100px; background: var(--surface2);
-    border: 1px solid rgba(244,211,3,0.12); border-top: none;
-    border-radius: 0 0 7px 7px; padding: 10px 11px; outline: none;
-    font-size: 0.82rem; line-height: 1.65; color: var(--white); overflow-y: auto;
+    min-height: 80px; background: var(--surface2); border: none;
+    padding: 9px 10px; outline: none; font-size: 0.8rem; line-height: 1.65;
+    color: var(--white); overflow-y: auto;
   }
-  .editor:focus { border-color: var(--accent); }
+  .editor:focus { outline: 1px solid rgba(244,211,3,0.3); outline-offset: -1px; }
   .editor a { color: var(--accent); }
   .editor ul, .editor ol { padding-left: 18px; }
 
-  /* BLOCOS DE TEXTO */
-  .blocks-container { display: flex; flex-direction: column; gap: 10px; }
-  .text-block {
-    border: 1px solid rgba(244,211,3,0.12); border-radius: 9px;
-    overflow: hidden; background: var(--dark);
+  .editor-html {
+    min-height: 80px; background: var(--surface2); border: none;
+    padding: 9px 10px; outline: none;
+    font-family: 'Courier New', monospace; font-size: 0.75rem; line-height: 1.6;
+    color: #7dd3fc; resize: vertical; width: 100%; display: none;
   }
-  .text-block-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 6px 10px; background: rgba(244,211,3,0.06); border-bottom: 1px solid rgba(244,211,3,0.1);
-  }
-  .block-label { font-size: 0.68rem; color: var(--muted); font-weight: 600; }
-  .block-actions { display: flex; gap: 5px; align-items: center; }
-  .block-align-btn {
-    background: transparent; border: 1px solid transparent; border-radius: 4px;
-    color: var(--muted); cursor: pointer; font-size: 0.68rem; padding: 2px 6px;
-    transition: all 0.15s;
-  }
-  .block-align-btn:hover, .block-align-btn.active { background: rgba(244,211,3,0.1); border-color: rgba(244,211,3,0.3); color: var(--accent); }
-  .block-remove {
-    background: transparent; border: none; color: var(--muted); cursor: pointer;
-    font-size: 0.75rem; padding: 2px 5px; border-radius: 4px; transition: all 0.15s;
-  }
-  .block-remove:hover { color: var(--red); background: rgba(252,129,129,0.1); }
+  .editor-html:focus { outline: 1px solid rgba(244,211,3,0.3); outline-offset: -1px; }
 
   .btn-add-block {
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    width: 100%; padding: 9px; background: transparent;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    width: 100%; padding: 8px; background: transparent;
     border: 1px dashed rgba(244,211,3,0.2); border-radius: 7px;
-    color: var(--muted); font-family: 'Inter', sans-serif; font-size: 0.78rem;
-    cursor: pointer; transition: all 0.2s;
+    color: var(--muted); font-family: 'Inter', sans-serif; font-size: 0.75rem;
+    cursor: pointer; transition: all 0.2s; margin-top: 8px;
   }
   .btn-add-block:hover { border-color: var(--accent); color: var(--accent); background: rgba(244,211,3,0.04); }
 
-  /* OPCIONAL BLOCK */
+  /* OPTIONAL BLOCK */
   .optional-block {
     border: 1px dashed rgba(244,211,3,0.15); border-radius: 9px;
-    padding: 12px; display: flex; flex-direction: column; gap: 10px;
+    padding: 11px; display: flex; flex-direction: column; gap: 9px;
   }
   .optional-block.enabled { border-color: var(--accent); border-style: solid; }
-
-  .colors-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-
-  .info-box {
-    padding: 9px 11px; background: var(--surface2);
-    border: 1px solid rgba(244,211,3,0.1); border-radius: 7px;
-    font-size: 0.68rem; color: var(--muted); line-height: 1.6;
-  }
-  .info-box strong { color: var(--accent); }
 
   .btn-insert-var {
     background: rgba(244,211,3,0.08); border: 1px solid rgba(244,211,3,0.25);
     border-radius: 5px; color: var(--accent); cursor: pointer;
-    font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 600;
-    padding: 3px 8px; transition: all 0.15s; white-space: nowrap;
+    font-family: 'Inter', sans-serif; font-size: 0.65rem; font-weight: 600;
+    padding: 2px 7px; transition: all 0.15s; white-space: nowrap;
   }
   .btn-insert-var:hover { background: rgba(244,211,3,0.16); }
 
-  /* PREVIEW */
+  .info-box {
+    padding: 8px 10px; background: var(--surface2);
+    border: 1px solid var(--border2); border-radius: 7px;
+    font-size: 0.66rem; color: var(--muted); line-height: 1.6;
+  }
+  .info-box strong { color: var(--accent); }
+
+  /* ── PREVIEW AREA ── */
   .preview-area {
-    background: #1a1a1a; overflow-y: auto;
+    background: #1c1c1e; overflow-y: auto;
     display: flex; flex-direction: column; align-items: center;
-    padding: 22px 16px 40px; gap: 10px;
+    padding: 0; gap: 0;
   }
-  .preview-label {
-    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    color: rgba(255,255,255,0.2); align-self: flex-start;
+
+  .preview-topbar {
+    width: 100%; background: #111113; border-bottom: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center; gap: 0;
+    padding: 10px 0; flex-shrink: 0; position: sticky; top: 0; z-index: 50;
   }
-  .preview-frame {
-    width: 100%; max-width: 640px; border-radius: 6px;
-    overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+  .view-toggle { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .view-btn {
+    display: flex; align-items: center; gap: 6px;
+    background: transparent; border: none; color: var(--muted);
+    cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 600;
+    padding: 7px 18px; transition: all 0.2s;
   }
+  .view-btn.active { background: var(--accent); color: #111; }
+  .view-btn:not(.active):hover { background: rgba(244,211,3,0.08); color: var(--white); }
+
+  .preview-scroll-area {
+    flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center;
+    padding: 24px 16px 40px; overflow-y: auto;
+  }
+
+  .preview-frame-wrap {
+    transition: max-width 0.3s ease;
+    width: 100%; max-width: 660px;
+    border-radius: 6px; overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+  }
+  .preview-frame-wrap.mobile { max-width: 420px; }
+
   #previewFrame {
-    width: 100%; border: none; display: block; background: #002d14;
-    /* altura controlada via JS */
+    width: 100%; border: none; display: block;
+    background: #002d14; min-height: 300px;
   }
 </style>
 </head>
@@ -211,7 +257,7 @@
 
 <div class="header">
   <div class="header-title">Email <span>Generator</span> <small>– Jogo de Ouro</small></div>
-  <button class="btn-primary" id="btnCopy" onclick="copyHTML()">
+  <button class="btn-copy" id="btnCopy" onclick="copyHTML()">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
     Copiar HTML
   </button>
@@ -234,12 +280,12 @@
   <!-- LOGO -->
   <div>
     <div class="section-label">Logo</div>
-    <div class="optional-block" id="logoBlock">
+    <div class="optional-block enabled" id="logoBlock">
       <label class="toggle-row">
-        <input type="checkbox" id="logoEnabled" checked onchange="toggleSection('logoEnabled','logoFields','logoBlock'); updatePreview()">
+        <input type="checkbox" id="logoEnabled" checked onchange="toggleOpt('logoEnabled','logoFields','logoBlock'); updatePreview()">
         <span>Incluir logo no topo</span>
       </label>
-      <div id="logoFields" style="display:flex; flex-direction:column; gap:8px;">
+      <div id="logoFields" style="display:flex;flex-direction:column;gap:8px;">
         <div class="field">
           <label>URL da logo</label>
           <input type="url" id="logoUrl" value="https://static5.smr.vc/efdae8e354ffda834bd6ad-LOGOJOGODEOURO.png" oninput="updatePreview()">
@@ -257,13 +303,15 @@
   <!-- BANNER -->
   <div>
     <div class="section-label">Banner</div>
-    <div class="field">
-      <label>URL do banner</label>
-      <input type="url" id="bannerUrl" placeholder="https://..." oninput="updatePreview()">
-    </div>
-    <div class="field" style="margin-top:8px">
-      <label>Link do banner (opcional)</label>
-      <input type="url" id="bannerLink" placeholder="https://..." oninput="updatePreview()">
+    <div class="two-col">
+      <div class="field">
+        <label>URL do banner</label>
+        <input type="url" id="bannerUrl" placeholder="https://..." oninput="updatePreview()">
+      </div>
+      <div class="field">
+        <label>Link do banner (opcional)</label>
+        <input type="url" id="bannerLink" placeholder="https://..." oninput="updatePreview()">
+      </div>
     </div>
   </div>
 
@@ -272,24 +320,23 @@
   <!-- TÍTULO -->
   <div>
     <div class="section-label">Titulo</div>
-    <div class="optional-block" id="titleBlock">
+    <div class="optional-block enabled" id="titleBlock">
       <label class="toggle-row">
-        <input type="checkbox" id="titleEnabled" checked onchange="toggleSection('titleEnabled','titleFields','titleBlock'); updatePreview()">
+        <input type="checkbox" id="titleEnabled" checked onchange="toggleOpt('titleEnabled','titleFields','titleBlock'); updatePreview()">
         <span>Incluir titulo</span>
       </label>
-      <div id="titleFields" style="display:flex; flex-direction:column; gap:8px;">
-        <div class="field">
-          <label style="justify-content:space-between;">
-            Texto do titulo
-            <button class="btn-insert-var" onclick="insertVarInTitle()">+ {{nome}}</button>
-          </label>
-          <input type="text" id="titleText" value="Ola, {{state.user_first_name}}!" oninput="updatePreview()">
-        </div>
-        <div class="field">
-          <label>Cor do titulo</label>
-          <div class="color-row">
-            <input type="text" id="titleColorHex" value="#242424" oninput="syncHex('titleColorHex','titleColor'); updatePreview()">
-            <input type="color" id="titleColor" value="#242424" oninput="syncPicker('titleColor','titleColorHex'); updatePreview()">
+      <div id="titleFields" style="display:flex;flex-direction:column;gap:8px;">
+        <div class="two-col">
+          <div class="field">
+            <label>Texto do titulo <button class="btn-insert-var" onclick="insertVar('titleText','{{state.user_first_name}}')">+ {{nome}}</button></label>
+            <input type="text" id="titleText" value="Ola, {{state.user_first_name}}!" oninput="updatePreview()">
+          </div>
+          <div class="field">
+            <label>Cor do titulo</label>
+            <div class="color-row">
+              <input type="text" id="titleColorHex" value="#242424" oninput="syncHex('titleColorHex','titleColor'); updatePreview()">
+              <input type="color" id="titleColor" value="#242424" oninput="syncPicker('titleColor','titleColorHex'); updatePreview()">
+            </div>
           </div>
         </div>
       </div>
@@ -301,9 +348,9 @@
   <!-- BLOCOS DE TEXTO -->
   <div>
     <div class="section-label">Blocos de texto</div>
-    <div class="blocks-container" id="blocksContainer"></div>
-    <button class="btn-add-block" onclick="addBlock()" style="margin-top:8px;">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    <div id="blocksContainer" style="display:flex;flex-direction:column;gap:10px;"></div>
+    <button class="btn-add-block" onclick="addBlock()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       Adicionar bloco de texto
     </button>
   </div>
@@ -312,40 +359,44 @@
 
   <!-- BOTAO CTA -->
   <div>
-    <div class="section-label">Botao CTA <span style="color:var(--muted);font-size:0.6rem;text-transform:none;letter-spacing:0;font-weight:400">(opcional)</span></div>
+    <div class="section-label">Botao CTA <span style="color:var(--muted);font-size:0.58rem;text-transform:none;letter-spacing:0;font-weight:400">(opcional)</span></div>
     <div class="optional-block" id="btnBlock">
       <label class="toggle-row">
-        <input type="checkbox" id="btnEnabled" onchange="toggleSection('btnEnabled','btnFields','btnBlock'); updatePreview()">
+        <input type="checkbox" id="btnEnabled" onchange="toggleOpt('btnEnabled','btnFields','btnBlock'); updatePreview()">
         <span>Incluir botao de acao</span>
       </label>
-      <div id="btnFields" style="display:none; flex-direction:column; gap:8px;">
-        <div class="field">
-          <label>Texto do botao</label>
-          <input type="text" id="btnText" placeholder="Ex: ATIVAR A MISSAO" oninput="updatePreview()">
-        </div>
-        <div class="field">
-          <label>Link de destino</label>
-          <input type="url" id="btnLink" placeholder="https://..." oninput="updatePreview()">
-        </div>
-        <div class="field">
-          <label>Cor de fundo</label>
-          <div class="color-row">
-            <input type="text" id="btnBgHex" value="#f4d303" oninput="syncHex('btnBgHex','btnBgColor'); updatePreview()">
-            <input type="color" id="btnBgColor" value="#f4d303" oninput="syncPicker('btnBgColor','btnBgHex'); updatePreview()">
+      <div id="btnFields" style="display:none;flex-direction:column;gap:8px;">
+        <div class="two-col">
+          <div class="field">
+            <label>Texto do botao</label>
+            <input type="text" id="btnText" placeholder="ATIVAR A MISSAO" oninput="updatePreview()">
+          </div>
+          <div class="field">
+            <label>Link de destino</label>
+            <input type="url" id="btnLink" placeholder="https://..." oninput="updatePreview()">
           </div>
         </div>
-        <div class="field">
-          <label>Cor do texto</label>
-          <div class="color-row">
-            <input type="text" id="btnTxtHex" value="#242424" oninput="syncHex('btnTxtHex','btnTxtColor'); updatePreview()">
-            <input type="color" id="btnTxtColor" value="#242424" oninput="syncPicker('btnTxtColor','btnTxtHex'); updatePreview()">
+        <div class="three-col">
+          <div class="field">
+            <label>Fundo</label>
+            <div class="color-row">
+              <input type="text" id="btnBgHex" value="#f4d303" oninput="syncHex('btnBgHex','btnBgColor'); updatePreview()">
+              <input type="color" id="btnBgColor" value="#f4d303" oninput="syncPicker('btnBgColor','btnBgHex'); updatePreview()">
+            </div>
           </div>
-        </div>
-        <div class="field">
-          <label>Cor da borda</label>
-          <div class="color-row">
-            <input type="text" id="btnBorderHex" value="#000000" oninput="syncHex('btnBorderHex','btnBorderColor'); updatePreview()">
-            <input type="color" id="btnBorderColor" value="#000000" oninput="syncPicker('btnBorderColor','btnBorderHex'); updatePreview()">
+          <div class="field">
+            <label>Texto</label>
+            <div class="color-row">
+              <input type="text" id="btnTxtHex" value="#242424" oninput="syncHex('btnTxtHex','btnTxtColor'); updatePreview()">
+              <input type="color" id="btnTxtColor" value="#242424" oninput="syncPicker('btnTxtColor','btnTxtHex'); updatePreview()">
+            </div>
+          </div>
+          <div class="field">
+            <label>Borda</label>
+            <div class="color-row">
+              <input type="text" id="btnBorderHex" value="#000000" oninput="syncHex('btnBorderHex','btnBorderColor'); updatePreview()">
+              <input type="color" id="btnBorderColor" value="#000000" oninput="syncPicker('btnBorderColor','btnBorderHex'); updatePreview()">
+            </div>
           </div>
         </div>
         <label class="toggle-row">
@@ -358,10 +409,10 @@
 
   <div class="divider-line"></div>
 
-  <!-- CORES GLOBAIS -->
+  <!-- CORES -->
   <div>
     <div class="section-label">Cores</div>
-    <div class="colors-grid">
+    <div class="two-col">
       <div class="field">
         <label>Fundo externo</label>
         <div class="color-row">
@@ -394,312 +445,458 @@
   </div>
 
   <div class="divider-line"></div>
-
-  <div class="info-box">
-    <strong>Rodape fixo</strong>: redes sociais, aviso legal e descadastro ja estao no template.
-  </div>
+  <div class="info-box"><strong>Rodape fixo:</strong> redes sociais, aviso legal e descadastro ja estao no template gerado.</div>
 
 </div><!-- /sidebar -->
 
+<!-- PREVIEW -->
 <div class="preview-area">
-  <div class="preview-label">Preview ao vivo</div>
-  <div class="preview-frame">
-    <iframe id="previewFrame" title="Preview do e-mail" scrolling="no"></iframe>
+  <div class="preview-topbar">
+    <div class="view-toggle">
+      <button class="view-btn active" id="btnDesktop" onclick="setView('desktop')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Desktop
+      </button>
+      <button class="view-btn" id="btnMobile" onclick="setView('mobile')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        Mobile
+      </button>
+    </div>
+  </div>
+  <div class="preview-scroll-area">
+    <div class="preview-frame-wrap" id="previewWrap">
+      <iframe id="previewFrame" title="Preview do e-mail" scrolling="no"></iframe>
+    </div>
   </div>
 </div>
 
 </div><!-- /workspace -->
 
+<!-- COLOR POPUP GLOBAL (fora do fluxo) -->
+<div class="color-popup" id="globalColorPopup">
+  <input type="color" id="globalColorPicker" value="#004409" oninput="onGlobalColorInput()">
+  <input type="text" class="color-popup-hex" id="globalColorHex" value="#004409" oninput="onGlobalHexInput()">
+  <button class="btn-apply-color" onclick="applyGlobalColor()">Aplicar cor</button>
+</div>
+
 <script>
 (function () {
-
   var blockCount = 0;
+  var currentEditorId = null;
+  var savedSelection = null;
 
-  /* ── SYNC COR ── */
-  window.syncPicker = function (pickerId, hexId) {
-    document.getElementById(hexId).value = document.getElementById(pickerId).value;
+  /* ── UTILS ── */
+  window.syncPicker = function(p,h){ document.getElementById(h).value = document.getElementById(p).value; };
+  window.syncHex = function(h,p){ var v=document.getElementById(h).value; if(/^#[0-9a-fA-F]{6}$/.test(v)) document.getElementById(p).value=v; };
+  function val(id){ return document.getElementById(id).value.trim(); }
+  function checked(id){ return document.getElementById(id).checked; }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  window.insertVar = function(inputId, text){
+    var inp = document.getElementById(inputId);
+    var s = inp.selectionStart, e = inp.selectionEnd;
+    inp.value = inp.value.slice(0,s) + text + inp.value.slice(e);
+    updatePreview();
   };
-  window.syncHex = function (hexId, pickerId) {
-    var hex = document.getElementById(hexId).value;
-    if (/^#[0-9a-fA-F]{6}$/.test(hex)) document.getElementById(pickerId).value = hex;
-  };
 
-  function val(id) { return document.getElementById(id).value.trim(); }
-  function checked(id) { return document.getElementById(id).checked; }
-
-  /* ── TOGGLE SECTIONS ── */
-  window.toggleSection = function (checkId, fieldsId, blockId) {
+  /* ── TOGGLE OPTIONAL SECTIONS ── */
+  window.toggleOpt = function(checkId, fieldsId, blockId){
     var on = checked(checkId);
-    var el = document.getElementById(fieldsId);
-    if (el) el.style.display = on ? 'flex' : 'none';
-    var bl = document.getElementById(blockId);
-    if (bl) bl.classList.toggle('enabled', on);
+    var f = document.getElementById(fieldsId);
+    if(f) f.style.display = on ? 'flex' : 'none';
+    var b = document.getElementById(blockId);
+    if(b) b.classList.toggle('enabled', on);
   };
 
-  /* ── VAR NO TÍTULO ── */
-  window.insertVarInTitle = function () {
-    var inp = document.getElementById('titleText');
-    var cur = inp.value;
-    var sel = inp.selectionStart;
-    inp.value = cur.slice(0, sel) + '{{state.user_first_name}}' + cur.slice(sel);
+  /* ── DESKTOP / MOBILE TOGGLE ── */
+  window.setView = function(mode){
+    var wrap = document.getElementById('previewWrap');
+    document.getElementById('btnDesktop').classList.toggle('active', mode==='desktop');
+    document.getElementById('btnMobile').classList.toggle('active', mode==='mobile');
+    wrap.classList.toggle('mobile', mode==='mobile');
+    setTimeout(fitFrame, 50);
+  };
+
+  /* ── BLOCK MODE: visual <-> html ── */
+  function setBlockMode(blockId, mode){
+    var wrap = document.getElementById(blockId);
+    var edVis = wrap.querySelector('.editor');
+    var edHtml = wrap.querySelector('.editor-html');
+    var toolbar = wrap.querySelector('.rich-toolbar');
+    var btnVis = wrap.querySelector('.btn-visual');
+    var btnHtml = wrap.querySelector('.btn-html');
+
+    if(mode === 'html'){
+      // sync visual -> html
+      edHtml.value = edVis.innerHTML;
+      edVis.style.display = 'none';
+      edHtml.style.display = 'block';
+      if(toolbar) toolbar.style.display = 'none';
+      btnVis.classList.remove('active');
+      btnHtml.classList.add('active');
+    } else {
+      // sync html -> visual
+      edVis.innerHTML = edHtml.value;
+      edVis.style.display = 'block';
+      edHtml.style.display = 'none';
+      if(toolbar) toolbar.style.display = 'flex';
+      btnHtml.classList.remove('active');
+      btnVis.classList.add('active');
+    }
     updatePreview();
-  };
+  }
+  window.setBlockMode = setBlockMode;
 
-  /* ── BLOCOS DE TEXTO ── */
-  window.addBlock = function () {
-    blockCount++;
-    var id = 'block_' + blockCount;
-    var edId = 'editor_' + blockCount;
-    var container = document.getElementById('blocksContainer');
+  /* ── COLOR POPUP ── */
+  var popup = document.getElementById('globalColorPopup');
 
-    var div = document.createElement('div');
-    div.className = 'text-block';
-    div.id = id;
-    div.dataset.align = 'left';
-
-    div.innerHTML =
-      '<div class="text-block-header">'
-      + '<span class="block-label">Bloco ' + blockCount + '</span>'
-      + '<div class="block-actions">'
-      + '<button class="block-align-btn active" onclick="setAlign(\'' + id + '\', \'left\')" title="Esquerda">Esq</button>'
-      + '<button class="block-align-btn" onclick="setAlign(\'' + id + '\', \'center\')" title="Centro">Centro</button>'
-      + '<button class="block-align-btn" onclick="setAlign(\'' + id + '\', \'right\')" title="Direita">Dir</button>'
-      + '<button class="block-remove" onclick="removeBlock(\'' + id + '\')" title="Remover">&#10005;</button>'
-      + '</div>'
-      + '</div>'
-      + '<div class="rich-toolbar">'
-      + buildToolbar(edId)
-      + '</div>'
-      + '<div class="editor" id="' + edId + '" contenteditable="true" oninput="updatePreview()"></div>';
-
-    container.appendChild(div);
-    document.getElementById(edId).focus();
-    updatePreview();
-  };
-
-  function buildToolbar(edId) {
-    return '<button class="tb-btn" onmousedown="fmtCmd(event,\'' + edId + '\',\'bold\')"><b>B</b></button>'
-      + '<button class="tb-btn" onmousedown="fmtCmd(event,\'' + edId + '\',\'italic\')"><i>I</i></button>'
-      + '<button class="tb-btn" onmousedown="fmtCmd(event,\'' + edId + '\',\'underline\')"><u>U</u></button>'
-      + '<div class="tb-sep"></div>'
-      + '<select class="tb-size" onchange="applySize(this,\'' + edId + '\')">'
-      + '<option value="">Tam</option>'
-      + '<option value="12px">12</option><option value="14px">14</option>'
-      + '<option value="16px" selected>16</option><option value="18px">18</option>'
-      + '<option value="20px">20</option><option value="24px">24</option>'
-      + '<option value="28px">28</option><option value="32px">32</option>'
-      + '</select>'
-      + '<div class="tb-sep"></div>'
-      + '<div class="tb-color-wrap" title="Cor do texto">'
-      + '<button class="tb-color-btn" id="colorBtn_' + edId + '"><span class="color-dot" id="colorDot_' + edId + '"></span>Cor'
-      + '<input type="color" value="#004409" oninput="applyColor(this,\'' + edId + '\')">'
-      + '</button>'
-      + '</div>'
-      + '<div class="tb-sep"></div>'
-      + '<button class="tb-btn" onmousedown="fmtCmd(event,\'' + edId + '\',\'insertUnorderedList\')">Lista</button>'
-      + '<button class="tb-btn" onmousedown="fmtCmd(event,\'' + edId + '\',\'insertOrderedList\')">1. Lista</button>'
-      + '<div class="tb-sep"></div>'
-      + '<button class="tb-btn" onmousedown="insertLinkFor(event,\'' + edId + '\')">Link</button>';
+  function saveSelection(edId){
+    var ed = document.getElementById(edId);
+    ed.focus();
+    var sel = window.getSelection();
+    if(sel && sel.rangeCount > 0){
+      savedSelection = { edId: edId, range: sel.getRangeAt(0).cloneRange() };
+    }
   }
 
-  window.setAlign = function (blockId, align) {
-    var block = document.getElementById(blockId);
-    block.dataset.align = align;
-    var btns = block.querySelectorAll('.block-align-btn');
-    var labels = ['left','center','right'];
-    btns.forEach(function (b, i) { b.classList.toggle('active', labels[i] === align); });
-    updatePreview();
+  function restoreSelection(){
+    if(!savedSelection) return false;
+    var ed = document.getElementById(savedSelection.edId);
+    ed.focus();
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(savedSelection.range);
+    return true;
+  }
+
+  window.openColorPopup = function(triggerEl, edId){
+    currentEditorId = edId;
+    saveSelection(edId);
+
+    // position popup below trigger
+    var rect = triggerEl.getBoundingClientRect();
+    popup.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+    popup.style.left = rect.left + 'px';
+    popup.style.position = 'fixed';
+    popup.classList.add('open');
+
+    var dot = triggerEl.querySelector('.color-dot');
+    var currentColor = dot ? dot.style.background || '#004409' : '#004409';
+    document.getElementById('globalColorPicker').value = currentColor;
+    document.getElementById('globalColorHex').value = currentColor;
   };
 
-  window.removeBlock = function (blockId) {
-    var el = document.getElementById(blockId);
-    if (el) el.parentNode.removeChild(el);
+  window.onGlobalColorInput = function(){
+    var c = document.getElementById('globalColorPicker').value;
+    document.getElementById('globalColorHex').value = c;
+  };
+
+  window.onGlobalHexInput = function(){
+    var hex = document.getElementById('globalColorHex').value;
+    if(/^#[0-9a-fA-F]{6}$/.test(hex)) document.getElementById('globalColorPicker').value = hex;
+  };
+
+  window.applyGlobalColor = function(){
+    var color = document.getElementById('globalColorHex').value;
+    if(!color || !currentEditorId) { popup.classList.remove('open'); return; }
+
+    if(restoreSelection()){
+      document.execCommand('foreColor', false, color);
+      // update dot
+      var wrap = document.getElementById(currentEditorId).closest('.block-wrap');
+      if(wrap){
+        var dot = wrap.querySelector('.color-dot');
+        if(dot) dot.style.background = color;
+      }
+      updatePreview();
+    }
+    popup.classList.remove('open');
+    savedSelection = null;
+  };
+
+  document.addEventListener('mousedown', function(e){
+    if(!popup.classList.contains('open')) return;
+    if(!popup.contains(e.target) && !e.target.closest('.color-trigger')) {
+      popup.classList.remove('open');
+    }
+  });
+
+  /* ── FONT SIZE ── */
+  window.applyFontSize = function(selectEl, edId){
+    var size = selectEl.value;
+    if(!size) return;
+    var ed = document.getElementById(edId);
+    ed.focus();
+    var sel = window.getSelection();
+    if(!sel || sel.rangeCount === 0 || sel.isCollapsed){
+      selectEl.value = ''; return;
+    }
+    // wrap selection in span
+    var range = sel.getRangeAt(0);
+    var span = document.createElement('span');
+    span.style.fontSize = size;
+    try { range.surroundContents(span); }
+    catch(e){
+      var frag = range.extractContents();
+      span.appendChild(frag);
+      range.insertNode(span);
+    }
+    selectEl.value = '';
     updatePreview();
   };
 
   /* ── RICH TEXT COMMANDS ── */
-  window.fmtCmd = function (e, edId, cmd) {
+  window.fmtCmd = function(e, edId, cmd){
     e.preventDefault();
     document.getElementById(edId).focus();
     document.execCommand(cmd, false, null);
     updatePreview();
   };
 
-  window.applySize = function (sel, edId) {
-    var size = sel.value;
-    if (!size) return;
-    document.getElementById(edId).focus();
-    document.execCommand('fontSize', false, '7');
-    var spans = document.getElementById(edId).querySelectorAll('font[size="7"]');
-    spans.forEach(function (s) { s.removeAttribute('size'); s.style.fontSize = size; });
-    sel.value = '';
-    updatePreview();
-  };
-
-  window.applyColor = function (picker, edId) {
-    document.getElementById(edId).focus();
-    document.execCommand('foreColor', false, picker.value);
-    var dot = document.getElementById('colorDot_' + edId);
-    if (dot) dot.style.background = picker.value;
-    updatePreview();
-  };
-
-  window.insertLinkFor = function (e, edId) {
+  window.insertLinkFor = function(e, edId){
     e.preventDefault();
     var url = prompt('URL do link:');
-    if (!url) return;
+    if(!url) return;
     document.getElementById(edId).focus();
     document.execCommand('createLink', false, url);
     updatePreview();
   };
 
-  /* ── GERAR HTML ── */
-  function generateEmailHTML() {
-    var previewText = val('previewText');
-    var logoOn      = checked('logoEnabled');
-    var logoUrl     = val('logoUrl');
-    var logoLink    = val('logoLink');
-    var banner      = val('bannerUrl');
-    var bannerLnk   = val('bannerLink');
-    var titleOn     = checked('titleEnabled');
-    var titleTxt    = val('titleText');
-    var titleClr    = val('titleColorHex') || '#242424';
-    var btnOn       = checked('btnEnabled');
-    var btnTxt      = val('btnText');
-    var btnLnk      = val('btnLink');
-    var btnBg       = val('btnBgHex') || '#f4d303';
-    var btnTxtClr   = val('btnTxtHex') || '#242424';
-    var btnBorder   = val('btnBorderHex') || '#000000';
-    var btnTab      = checked('btnNewTab');
-    var bgExt       = val('bgHex') || '#002d14';
-    var cardVerde   = val('cardVerdeHex') || '#004409';
-    var cardBg      = val('cardBgHex') || '#f9f9fa';
-    var cardBorder  = val('cardBorderHex') || '#e1e1e6';
-
-    /* Preview text */
-    var previewBlock = previewText
-      ? '<div style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0;" data-skip-in-text="true">'
-        + escHtml(previewText)
-        + '<div>' + Array(91).join('&zwnj;&nbsp;') + '</div></div>'
-      : '';
-
-    /* Logo card */
-    var logoCard = '';
-    if (logoOn && logoUrl) {
-      var logoImg = '<img alt="Jogo de Ouro" src="' + logoUrl + '" style="display:inline-block;outline:none;border:none;text-decoration:none;max-width:100%;" width="250" />';
-      var logoInner = logoLink
-        ? '<a href="' + logoLink + '" target="_blank" style="display:inline-block;">' + logoImg + '</a>'
-        : logoImg;
-      logoCard = '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="max-width:600px;margin:0 auto 10px;background-color:' + cardVerde + ';color:#f0f0f0;border-radius:15px;overflow:hidden;">'
-        + '<tbody><tr style="width:100%"><td>'
-        + '<h1 style="padding:10px 0 0;text-align:center;">' + logoInner + '</h1>'
-        + '</td></tr></tbody></table>';
-    }
-
-    /* Banner card */
-    var bannerCard = '';
-    if (banner) {
-      var bannerImg = '<img alt="Banner" src="' + banner + '" style="display:block;outline:none;border:none;text-decoration:none;width:100%;height:auto;" width="600" />';
-      var bannerInner = bannerLnk ? '<a href="' + bannerLnk + '" target="_blank" style="display:block;">' + bannerImg + '</a>' : bannerImg;
-      bannerCard = '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="max-width:600px;margin:0 auto 10px;background-color:#eeeeee;color:#242424;border-radius:15px;border:1px solid ' + cardVerde + ';overflow:hidden;">'
-        + '<tbody><tr style="width:100%"><td>'
-        + '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="padding:0;text-align:center;">'
-        + '<tbody><tr><td>' + bannerInner + '</td></tr></tbody></table>'
-        + '</td></tr></tbody></table>';
-    }
-
-    /* Título */
-    var titleHtml = (titleOn && titleTxt)
-      ? '<p style="font-size:24px;line-height:150%;font-weight:900;margin-bottom:15px;text-align:center;margin-top:16px;color:' + titleClr + ';">' + escHtml(titleTxt) + '</p>'
-      : '';
-
-    /* Blocos de texto */
-    var blocksHtml = '';
-    var blocks = document.querySelectorAll('.text-block');
-    blocks.forEach(function (block) {
-      var edId = block.querySelector('.editor').id;
-      var content = document.getElementById(edId).innerHTML.trim();
-      if (!content) return;
-      var align = block.dataset.align || 'left';
-      blocksHtml += '<p style="font-size:16px;line-height:165%;font-weight:500;margin-top:16px;margin-bottom:16px;text-align:' + align + ';">' + content + '</p>';
-    });
-
-    /* Botao */
-    var btnHtml = (btnOn && btnTxt && btnLnk)
-      ? '<div style="margin-top:30px;text-align:center;">'
-        + '<a href="' + btnLnk + '"' + (btnTab ? ' target="_blank"' : '') + ' style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;background-color:' + btnBg + ';color:' + btnTxtClr + ';font-weight:900;padding:12px 30px;font-size:16px;border-radius:10px;border:3px solid ' + btnBorder + ';text-transform:uppercase;">'
-        + '<span style="max-width:100%;display:inline-block;line-height:120%;">' + escHtml(btnTxt) + '</span></a>'
-        + '</div>'
-      : '';
-
-    /* Rodape */
-    var footerCard = '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="max-width:600px;margin:0 auto 10px;background-color:' + cardVerde + ';color:#f0f0f0;border-radius:15px;overflow:hidden;">'
-      + '<tbody><tr style="width:100%"><td>'
-      + '<p style="font-size:14px;line-height:24px;color:#dadada;margin-top:20px;margin-bottom:10px;text-align:center;padding-inline:40px;">*Destinado para maiores de 18 anos. Jogue com responsabilidade.*<br />Portaria SPA/MF N&#186; 693/25</p>'
-      + '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="text-align:center;"><tbody><tr><td>'
-      + '<p style="font-size:15px;line-height:24px;color:#ffffff;margin-bottom:16px;padding-inline:40px;margin-top:16px;">Fique de olho nas nossas redes sociais e n&#227;o perca nada!</p>'
-      + '<table style="margin:0 auto" cellpadding="0" cellspacing="0" role="presentation"><tr>'
-      + '<td style="padding:0 15px;"><a href="https://www.instagram.com/jogodeourobet/" target="_blank" rel="noopener noreferrer"><img alt="Instagram" src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" style="display:block;outline:none;border:none;text-decoration:none;border-radius:100%;" width="35" /></a></td>'
-      + '<td style="padding:0 15px;"><a href="https://t.me/jogodeourovip" target="_blank" rel="noopener noreferrer"><img alt="Telegram" src="https://cdn-icons-png.flaticon.com/512/2111/2111644.png" style="display:block;outline:none;border:none;text-decoration:none;border-radius:10%;" width="30" /></a></td>'
-      + '<td style="padding:0 15px;"><a href="https://www.youtube.com/@JogoDeOuro" target="_blank" rel="noopener noreferrer"><img alt="YouTube" src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" style="display:block;outline:none;border:none;text-decoration:none;border-radius:10%;" width="35" /></a></td>'
-      + '</tr></table>'
-      + '</td></tr></tbody></table>'
-      + '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="padding:12px 10px;text-align:center;"><tbody><tr><td>'
-      + '<p style="font-size:12px;line-height:24px;color:#999;margin-top:16px;margin-bottom:16px;">Se quiser parar de receber nossas novidades e promo&#231;&#245;es exclusivas, <a href="dp:unsubscribe" style="color:#f4d303;text-decoration:underline;">clique aqui</a>.</p>'
-      + '</td></tr></tbody></table>'
-      + '</td></tr></tbody></table>';
-
-    return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
-      + '<html style="margin:0;padding:0" dir="ltr" lang="pt-BR">'
-      + '<head>'
-      + '<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />'
-      + '<meta name="x-apple-disable-message-reformatting" />'
-      + '<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;display=swap" rel="stylesheet" />'
-      + '</head>'
-      + '<body style="background-color:' + bgExt + '">'
-      + previewBlock
-      + '<table border="0" width="100%" cellpadding="0" cellspacing="0" role="presentation" align="center"><tbody><tr>'
-      + '<td style="margin:0;padding:0;padding-top:50px;padding-bottom:50px;background-color:' + bgExt + ';font-family:\'Inter\',Arial,sans-serif;">'
-      + logoCard
-      + bannerCard
-      + '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="max-width:600px;margin:0 auto 10px;background-color:' + cardBg + ';color:#242424;border-radius:15px;border:1px solid ' + cardBorder + ';overflow:hidden;">'
-      + '<tbody><tr style="width:100%"><td>'
-      + '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="padding:40px 25px;">'
-      + '<tbody><tr><td>'
-      + titleHtml
-      + blocksHtml
-      + btnHtml
-      + '</td></tr></tbody></table>'
-      + '</td></tr></tbody></table>'
-      + footerCard
-      + '</td></tr></tbody></table>'
-      + '</body></html>';
+  /* ── BUILD TOOLBAR ── */
+  function buildToolbar(edId){
+    return '<button class="tb-btn" onmousedown="fmtCmd(event,\''+edId+'\',\'bold\')"><b>B</b></button>'
+      +'<button class="tb-btn" onmousedown="fmtCmd(event,\''+edId+'\',\'italic\')"><i>I</i></button>'
+      +'<button class="tb-btn" onmousedown="fmtCmd(event,\''+edId+'\',\'underline\')"><u>U</u></button>'
+      +'<div class="tb-sep"></div>'
+      +'<select class="tb-size" onchange="applyFontSize(this,\''+edId+'\')" onmousedown="saveSelBefore(\''+edId+'\')">'
+      +'<option value="">Tam</option>'
+      +'<option value="12px">12</option><option value="14px">14</option>'
+      +'<option value="16px">16</option><option value="18px">18</option>'
+      +'<option value="20px">20</option><option value="24px">24</option>'
+      +'<option value="28px">28</option><option value="32px">32</option>'
+      +'</select>'
+      +'<div class="tb-sep"></div>'
+      +'<button class="color-trigger" onmousedown="saveSelBefore(\''+edId+'\')" onclick="openColorPopup(this,\''+edId+'\')">'
+      +'<span class="color-dot" style="background:#004409;"></span>Cor'
+      +'</button>'
+      +'<div class="tb-sep"></div>'
+      +'<button class="tb-btn" onmousedown="fmtCmd(event,\''+edId+'\',\'insertUnorderedList\')">• Lista</button>'
+      +'<button class="tb-btn" onmousedown="fmtCmd(event,\''+edId+'\',\'insertOrderedList\')">1. Lista</button>'
+      +'<div class="tb-sep"></div>'
+      +'<button class="tb-btn" onmousedown="insertLinkFor(event,\''+edId+'\')">Link</button>';
   }
 
-  function escHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  /* ── PREVIEW via srcdoc + auto-height ── */
-  window.updatePreview = function () {
-    var html = generateEmailHTML();
-    var frame = document.getElementById('previewFrame');
-    frame.srcdoc = html;
-    frame.onload = function () {
-      try {
-        var h = frame.contentDocument.documentElement.scrollHeight;
-        frame.style.height = h + 'px';
-      } catch (e) {}
-    };
+  var selBeforeMap = {};
+  window.saveSelBefore = function(edId){
+    var ed = document.getElementById(edId);
+    ed.focus();
+    var sel = window.getSelection();
+    if(sel && sel.rangeCount > 0){
+      selBeforeMap[edId] = sel.getRangeAt(0).cloneRange();
+    }
   };
 
-  /* ── COPIAR ── */
-  window.copyHTML = function () {
-    navigator.clipboard.writeText(generateEmailHTML()).then(function () {
+  // Override applyFontSize to use saved sel
+  window.applyFontSize = function(selectEl, edId){
+    var size = selectEl.value;
+    if(!size){ return; }
+    var ed = document.getElementById(edId);
+    ed.focus();
+    var range = selBeforeMap[edId];
+    if(!range || range.collapsed){ selectEl.value=''; return; }
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    var span = document.createElement('span');
+    span.style.fontSize = size;
+    try { range.surroundContents(span); }
+    catch(ex){
+      var frag = range.extractContents();
+      span.appendChild(frag);
+      range.insertNode(span);
+    }
+    selectEl.value = '';
+    updatePreview();
+  };
+
+  /* ── ADD BLOCK ── */
+  window.addBlock = function(){
+    blockCount++;
+    var id = 'block_'+blockCount;
+    var edId = 'ed_'+blockCount;
+    var htmlId = 'edhtml_'+blockCount;
+
+    var div = document.createElement('div');
+    div.className = 'block-wrap';
+    div.id = id;
+    div.dataset.align = 'left';
+
+    div.innerHTML =
+      '<div class="block-header">'
+        +'<span class="block-label">Bloco '+blockCount+'</span>'
+        +'<div class="block-header-right">'
+          +'<button class="seg-btn btn-visual active" onclick="setBlockMode(\''+id+'\',\'visual\')">Visual</button>'
+          +'<button class="seg-btn btn-html" onclick="setBlockMode(\''+id+'\',\'html\')">HTML</button>'
+          +'<div class="tb-sep" style="height:16px;margin:0 2px;"></div>'
+          +'<button class="seg-btn active" onclick="setAlign(\''+id+'\',\'left\')">Esq</button>'
+          +'<button class="seg-btn" onclick="setAlign(\''+id+'\',\'center\')">Centro</button>'
+          +'<button class="seg-btn" onclick="setAlign(\''+id+'\',\'right\')">Dir</button>'
+          +'<div class="tb-sep" style="height:16px;margin:0 2px;"></div>'
+          +'<button class="block-remove" onclick="removeBlock(\''+id+'\')" title="Remover">&#10005;</button>'
+        +'</div>'
+      +'</div>'
+      +'<div class="rich-toolbar">'+buildToolbar(edId)+'</div>'
+      +'<div class="editor" id="'+edId+'" contenteditable="true" oninput="updatePreview()"></div>'
+      +'<textarea class="editor-html" id="'+htmlId+'" oninput="syncHtmlToVisual(\''+htmlId+'\',\''+edId+'\')"></textarea>';
+
+    document.getElementById('blocksContainer').appendChild(div);
+    document.getElementById(edId).focus();
+    updatePreview();
+  };
+
+  window.syncHtmlToVisual = function(htmlId, edId){
+    document.getElementById(edId).innerHTML = document.getElementById(htmlId).value;
+    updatePreview();
+  };
+
+  window.setAlign = function(blockId, align){
+    var block = document.getElementById(blockId);
+    block.dataset.align = align;
+    var btns = block.querySelectorAll('.block-header-right .seg-btn:nth-child(4), .block-header-right .seg-btn:nth-child(5), .block-header-right .seg-btn:nth-child(6)');
+    // simpler: find all seg-btns that are align ones
+    var all = block.querySelectorAll('.seg-btn');
+    var alignMap = {'Esq':'left','Centro':'center','Dir':'right'};
+    all.forEach(function(b){
+      var txt = b.textContent.trim();
+      if(alignMap[txt] !== undefined){
+        b.classList.toggle('active', alignMap[txt] === align);
+      }
+    });
+    updatePreview();
+  };
+
+  window.removeBlock = function(blockId){
+    var el = document.getElementById(blockId);
+    if(el) el.parentNode.removeChild(el);
+    updatePreview();
+  };
+
+  /* ── GENERATE EMAIL HTML ── */
+  function generateEmailHTML(){
+    var previewText = val('previewText');
+    var logoOn    = checked('logoEnabled');
+    var logoUrl   = val('logoUrl');
+    var logoLink  = val('logoLink');
+    var banner    = val('bannerUrl');
+    var bannerLnk = val('bannerLink');
+    var titleOn   = checked('titleEnabled');
+    var titleTxt  = val('titleText');
+    var titleClr  = val('titleColorHex') || '#242424';
+    var btnOn     = checked('btnEnabled');
+    var btnTxt    = val('btnText');
+    var btnLnk    = val('btnLink');
+    var btnBg     = val('btnBgHex') || '#f4d303';
+    var btnTxtClr = val('btnTxtHex') || '#242424';
+    var btnBorder = val('btnBorderHex') || '#000000';
+    var btnTab    = checked('btnNewTab');
+    var bgExt     = val('bgHex') || '#002d14';
+    var cardVerde = val('cardVerdeHex') || '#004409';
+    var cardBg    = val('cardBgHex') || '#f9f9fa';
+    var cardBorder= val('cardBorderHex') || '#e1e1e6';
+
+    var previewBlock = previewText
+      ? '<div style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0;" data-skip-in-text="true">'+esc(previewText)+'<div>'+Array(91).join('&zwnj;&nbsp;')+'</div></div>'
+      : '';
+
+    var logoCard = '';
+    if(logoOn && logoUrl){
+      var logoImg = '<img alt="Jogo de Ouro" src="'+logoUrl+'" style="display:inline-block;outline:none;border:none;text-decoration:none;max-width:100%;" width="250" />';
+      var logoInner = logoLink ? '<a href="'+logoLink+'" target="_blank" style="display:inline-block;">'+logoImg+'</a>' : logoImg;
+      logoCard = '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="max-width:600px;margin:0 auto 10px;background-color:'+cardVerde+';color:#f0f0f0;border-radius:15px;overflow:hidden;"><tbody><tr style="width:100%"><td><h1 style="padding:10px 0 0;text-align:center;">'+logoInner+'</h1></td></tr></tbody></table>';
+    }
+
+    var bannerCard = '';
+    if(banner){
+      var bImg = '<img alt="Banner" src="'+banner+'" style="display:block;outline:none;border:none;text-decoration:none;width:100%;height:auto;" width="600" />';
+      var bInner = bannerLnk ? '<a href="'+bannerLnk+'" target="_blank" style="display:block;">'+bImg+'</a>' : bImg;
+      bannerCard = '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="max-width:600px;margin:0 auto 10px;background-color:#eeeeee;color:#242424;border-radius:15px;border:1px solid '+cardVerde+';overflow:hidden;"><tbody><tr style="width:100%"><td><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="padding:0;text-align:center;"><tbody><tr><td>'+bInner+'</td></tr></tbody></table></td></tr></tbody></table>';
+    }
+
+    var titleHtml = (titleOn && titleTxt)
+      ? '<p style="font-size:24px;line-height:150%;font-weight:900;margin-bottom:15px;text-align:center;margin-top:16px;color:'+titleClr+';">'+esc(titleTxt)+'</p>'
+      : '';
+
+    var blocksHtml = '';
+    document.querySelectorAll('.block-wrap').forEach(function(block){
+      var edVis = block.querySelector('.editor');
+      var edHtml = block.querySelector('.editor-html');
+      var isHtmlMode = edHtml && edHtml.style.display !== 'none';
+      var content = isHtmlMode ? edHtml.value.trim() : (edVis ? edVis.innerHTML.trim() : '');
+      if(!content) return;
+      var align = block.dataset.align || 'left';
+      blocksHtml += '<p style="font-size:16px;line-height:165%;font-weight:500;margin-top:16px;margin-bottom:16px;text-align:'+align+';">'+content+'</p>';
+    });
+
+    var btnHtml = (btnOn && btnTxt && btnLnk)
+      ? '<div style="margin-top:30px;text-align:center;"><a href="'+btnLnk+'"'+(btnTab?' target="_blank"':'')+' style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;background-color:'+btnBg+';color:'+btnTxtClr+';font-weight:900;padding:12px 30px;font-size:16px;border-radius:10px;border:3px solid '+btnBorder+';text-transform:uppercase;"><span style="max-width:100%;display:inline-block;line-height:120%;">'+esc(btnTxt)+'</span></a></div>'
+      : '';
+
+    var footerCard = '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="max-width:600px;margin:0 auto 10px;background-color:'+cardVerde+';color:#f0f0f0;border-radius:15px;overflow:hidden;"><tbody><tr style="width:100%"><td>'
+      +'<p style="font-size:14px;line-height:24px;color:#dadada;margin-top:20px;margin-bottom:10px;text-align:center;padding-inline:40px;">*Destinado para maiores de 18 anos. Jogue com responsabilidade.*<br />Portaria SPA/MF N&#186; 693/25</p>'
+      +'<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="text-align:center;"><tbody><tr><td>'
+      +'<p style="font-size:15px;line-height:24px;color:#ffffff;margin-bottom:16px;padding-inline:40px;margin-top:16px;">Fique de olho nas nossas redes sociais e n&#227;o perca nada!</p>'
+      +'<table style="margin:0 auto" cellpadding="0" cellspacing="0" role="presentation"><tr>'
+      +'<td style="padding:0 15px;"><a href="https://www.instagram.com/jogodeourobet/" target="_blank" rel="noopener noreferrer"><img alt="Instagram" src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" style="display:block;outline:none;border:none;text-decoration:none;border-radius:100%;" width="35" /></a></td>'
+      +'<td style="padding:0 15px;"><a href="https://t.me/jogodeourovip" target="_blank" rel="noopener noreferrer"><img alt="Telegram" src="https://cdn-icons-png.flaticon.com/512/2111/2111644.png" style="display:block;outline:none;border:none;text-decoration:none;border-radius:10%;" width="30" /></a></td>'
+      +'<td style="padding:0 15px;"><a href="https://www.youtube.com/@JogoDeOuro" target="_blank" rel="noopener noreferrer"><img alt="YouTube" src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" style="display:block;outline:none;border:none;text-decoration:none;border-radius:10%;" width="35" /></a></td>'
+      +'</tr></table>'
+      +'</td></tr></tbody></table>'
+      +'<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="padding:12px 10px;text-align:center;"><tbody><tr><td>'
+      +'<p style="font-size:12px;line-height:24px;color:#999;margin-top:16px;margin-bottom:16px;">Se quiser parar de receber nossas novidades e promo&#231;&#245;es exclusivas, <a href="dp:unsubscribe" style="color:#f4d303;text-decoration:underline;">clique aqui</a>.</p>'
+      +'</td></tr></tbody></table>'
+      +'</td></tr></tbody></table>';
+
+    return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
+      +'<html style="margin:0;padding:0" dir="ltr" lang="pt-BR">'
+      +'<head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type" /><meta name="x-apple-disable-message-reformatting" />'
+      +'<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;display=swap" rel="stylesheet" />'
+      +'</head>'
+      +'<body style="background-color:'+bgExt+'">'
+      +previewBlock
+      +'<table border="0" width="100%" cellpadding="0" cellspacing="0" role="presentation" align="center"><tbody><tr>'
+      +'<td style="margin:0;padding:0;padding-top:50px;padding-bottom:50px;background-color:'+bgExt+';font-family:\'Inter\',Arial,sans-serif;">'
+      +logoCard+bannerCard
+      +'<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="max-width:600px;margin:0 auto 10px;background-color:'+cardBg+';color:#242424;border-radius:15px;border:1px solid '+cardBorder+';overflow:hidden;">'
+      +'<tbody><tr style="width:100%"><td>'
+      +'<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="padding:40px 25px;">'
+      +'<tbody><tr><td>'+titleHtml+blocksHtml+btnHtml+'</td></tr></tbody></table>'
+      +'</td></tr></tbody></table>'
+      +footerCard
+      +'</td></tr></tbody></table>'
+      +'</body></html>';
+  }
+
+  /* ── PREVIEW ── */
+  function fitFrame(){
+    var frame = document.getElementById('previewFrame');
+    try {
+      var h = frame.contentDocument.documentElement.scrollHeight;
+      frame.style.height = h + 'px';
+    } catch(e){}
+  }
+
+  window.updatePreview = function(){
+    var frame = document.getElementById('previewFrame');
+    frame.srcdoc = generateEmailHTML();
+    frame.onload = function(){ fitFrame(); };
+  };
+
+  /* ── COPY ── */
+  window.copyHTML = function(){
+    navigator.clipboard.writeText(generateEmailHTML()).then(function(){
       var btn = document.getElementById('btnCopy');
-      btn.classList.add('copied');
-      btn.textContent = 'Copiado!';
-      setTimeout(function () {
+      btn.classList.add('copied'); btn.textContent = 'Copiado!';
+      setTimeout(function(){
         btn.classList.remove('copied');
         btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copiar HTML';
       }, 2500);
@@ -707,13 +904,10 @@
   };
 
   /* ── INIT ── */
-  window.addEventListener('DOMContentLoaded', function () {
-    toggleSection('logoEnabled', 'logoFields', 'logoBlock');
-    toggleSection('titleEnabled', 'titleFields', 'titleBlock');
+  window.addEventListener('DOMContentLoaded', function(){
     addBlock();
     updatePreview();
   });
-
 }());
 </script>
 </body>
