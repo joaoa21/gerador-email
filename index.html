@@ -534,42 +534,43 @@ Portaria SPA/MF Nº 693/25</textarea></div>
     var edVis = document.getElementById(edId);
     var edHtml = document.getElementById(htmlId);
 
-    /* PASTE: limpa HTML de outros editores e atualiza preview */
+    /* PASTE: insere conteúdo e salva imediatamente no dataset para o generateHTML ler */
     edVis.addEventListener('paste', function(e){
       e.preventDefault();
       var html = (e.clipboardData||window.clipboardData).getData('text/html');
       var text = (e.clipboardData||window.clipboardData).getData('text/plain');
-      if(html){
-        var clean = cleanPastedHTML(html);
-        // inserir diretamente no innerHTML garante renderização imediata
-        var sel = window.getSelection();
-        if(sel && sel.rangeCount > 0){
-          var range = sel.getRangeAt(0);
-          range.deleteContents();
-          var tempDiv = document.createElement('div');
-          tempDiv.innerHTML = clean;
-          var frag = document.createDocumentFragment();
-          var node;
-          while((node = tempDiv.firstChild)) frag.appendChild(node);
-          range.insertNode(frag);
-          // mover cursor para o fim
-          range.collapse(false);
-          sel.removeAllRanges();
-          sel.addRange(range);
-        } else {
-          edVis.innerHTML += clean;
-        }
+
+      var insertHtml = html ? cleanPastedHTML(html)
+        : text.split(/\r?\n/).map(function(l){ return '<p>'+(l||'&nbsp;')+'</p>'; }).join('');
+
+      var sel = window.getSelection();
+      if(sel && sel.rangeCount > 0){
+        var range = sel.getRangeAt(0);
+        range.deleteContents();
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = insertHtml;
+        var frag = document.createDocumentFragment();
+        while(tempDiv.firstChild) frag.appendChild(tempDiv.firstChild);
+        range.insertNode(frag);
+        range.collapse(false);
+        sel.removeAllRanges();
+        sel.addRange(range);
       } else {
-        var lines = text.split(/\r?\n/);
-        lines.forEach(function(line, i){
-          document.execCommand('insertText', false, line);
-          if(i < lines.length - 1) document.execCommand('insertParagraph', false, null);
-        });
+        edVis.innerHTML += insertHtml;
       }
-      setTimeout(function(){ updatePreview(); }, 0);
+
+      // salvar no dataset imediatamente — sem depender de timing do browser
+      var blockWrap = edVis.closest('.block-wrap');
+      if(blockWrap) blockWrap.dataset.cachedContent = edVis.innerHTML;
+
+      updatePreview();
     });
 
-    edVis.addEventListener('input', function(){ updatePreview(); });
+    edVis.addEventListener('input', function(){
+      var blockWrap = edVis.closest('.block-wrap');
+      if(blockWrap) blockWrap.dataset.cachedContent = edVis.innerHTML;
+      updatePreview();
+    });
 
     edHtml.addEventListener('input', function(){
       edVis.innerHTML = edHtml.value;
@@ -636,7 +637,13 @@ Portaria SPA/MF Nº 693/25</textarea></div>
     document.querySelectorAll('.block-wrap').forEach(function(block){
       var edVis=block.querySelector('.editor'),edHtml=block.querySelector('.editor-html');
       var isHtml=edHtml&&edHtml.style.display!=='none';
-      var content=isHtml?edHtml.value.trim():(edVis?edVis.innerHTML.trim():'');
+      var content;
+      if(isHtml){
+        content = edHtml.value.trim();
+      } else {
+        // preferir cachedContent (atualizado sincrono no paste/input)
+        content = (block.dataset.cachedContent !== undefined ? block.dataset.cachedContent : (edVis ? edVis.innerHTML : '')).trim();
+      }
       if(!content) return;
       blocksHtml+='<p style="font-size:16px;line-height:165%;font-weight:500;margin-top:16px;margin-bottom:16px;text-align:'+(block.dataset.align||'left')+';">'+content+'</p>';
     });
@@ -685,14 +692,12 @@ Portaria SPA/MF Nº 693/25</textarea></div>
       +'</body></html>';
   }
 
-  /* ── PREVIEW via Blob URL (resolve scroll em arquivo local) ── */
+  /* ── PREVIEW via Blob URL ── */
   window.updatePreview = function(){
     var html = generateEmailHTML();
     var frame = document.getElementById('previewFrame');
 
-    // revogar blob anterior
-    if(currentBlobUrl){ URL.revokeObjectURL(currentBlobUrl); currentBlobUrl=null; }
-
+    if(currentBlobUrl){ URL.revokeObjectURL(currentBlobUrl); currentBlobUrl = null; }
     var blob = new Blob([html], {type:'text/html;charset=utf-8'});
     currentBlobUrl = URL.createObjectURL(blob);
 
@@ -701,7 +706,14 @@ Portaria SPA/MF Nº 693/25</textarea></div>
         var doc = frame.contentDocument || frame.contentWindow.document;
         var h = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
         frame.style.height = h + 'px';
-      }catch(e){}
+      }catch(e){
+        setTimeout(function(){
+          try{
+            var doc2 = frame.contentDocument || frame.contentWindow.document;
+            frame.style.height = Math.max(doc2.body.scrollHeight, doc2.documentElement.scrollHeight) + 'px';
+          }catch(e2){}
+        }, 100);
+      }
     };
     frame.src = currentBlobUrl;
   };
