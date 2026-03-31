@@ -530,6 +530,14 @@ Portaria SPA/MF Nº 693/25</textarea></div>
       updatePreview();
     });
 
+    edVis.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){
+        e.preventDefault();
+        document.execCommand('insertLineBreak');
+        updatePreview();
+      }
+    });
+
     edVis.addEventListener('input', function(){ updatePreview(); });
 
     edVis.focus();
