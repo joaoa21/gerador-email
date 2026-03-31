@@ -29,6 +29,8 @@
   .btn-copy { display: flex; align-items: center; gap: 6px; background: var(--accent); color: #111; border: none; border-radius: 7px; padding: 8px 16px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: opacity 0.2s, transform 0.15s; }
   .btn-copy:hover { opacity: 0.88; transform: translateY(-1px); }
   .btn-copy.copied { background: var(--green); color: #fff; }
+  .btn-new { display: flex; align-items: center; gap: 6px; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 7px; padding: 8px 14px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+  .btn-new:hover { border-color: var(--red); color: var(--red); background: rgba(252,129,129,0.06); }
 
   .workspace { display: grid; grid-template-columns: 460px 1fr; flex: 1; overflow: hidden; min-height: 0; }
 
@@ -141,10 +143,16 @@
 
 <div class="header">
   <div class="header-title">Email <span>Generator</span> <small>– Jogo de Ouro</small></div>
-  <button class="btn-copy" id="btnCopy" onclick="copyHTML()">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-    Copiar HTML
-  </button>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <button class="btn-new" id="btnNew" onclick="novoEmail()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+      Novo e-mail
+    </button>
+    <button class="btn-copy" id="btnCopy" onclick="copyHTML()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      Copiar HTML
+    </button>
+  </div>
 </div>
 
 <div class="workspace">
@@ -236,7 +244,7 @@
       <div id="btnFields" style="display:none;flex-direction:column;gap:8px;">
         <div class="two-col">
           <div class="field"><label>Texto</label><input type="text" id="btnText" placeholder="ATIVAR A MISSAO" oninput="updatePreview()"></div>
-          <div class="field"><label>Link</label><input type="url" id="btnLink" placeholder="https://..." oninput="updatePreview()"></div>
+          <div class="field"><label>Link <span style="color:var(--muted);font-weight:400;font-size:0.65rem;">(opcional)</span></label><input type="url" id="btnLink" placeholder="https://..." oninput="updatePreview()"></div>
         </div>
         <div class="three-col">
           <div class="field"><label>Fundo</label><div class="color-row"><input type="text" id="btnBgHex" value="#f4d303" oninput="syncHex('btnBgHex','btnBgColor'); updatePreview()"><input type="color" id="btnBgColor" value="#f4d303" oninput="syncPicker('btnBgColor','btnBgHex'); updatePreview()"></div></div>
@@ -270,7 +278,7 @@
         <span>Incluir rodape</span>
       </label>
       <div id="footerFields" style="display:flex;flex-direction:column;gap:10px;">
-        <div class="field"><label>Texto legal</label><textarea id="footerLegal" oninput="autoResize(this); updatePreview()">*Destinado para maiores de 18 anos. Jogue com responsabilidade.*
+        <div class="field"><label>Texto legal</label><textarea id="footerLegal" style="min-height:80px;" oninput="autoResize(this); updatePreview()">*Destinado para maiores de 18 anos. Jogue com responsabilidade.*
 Portaria SPA/MF Nº 693/25</textarea></div>
         <div class="field"><label>Chamada redes sociais</label><input type="text" id="footerSocialText" value="Fique de olho nas nossas redes sociais e nao perca nada!" oninput="updatePreview()"></div>
 
@@ -533,7 +541,24 @@ Portaria SPA/MF Nº 693/25</textarea></div>
       var text = (e.clipboardData||window.clipboardData).getData('text/plain');
       if(html){
         var clean = cleanPastedHTML(html);
-        document.execCommand('insertHTML', false, clean);
+        // inserir diretamente no innerHTML garante renderização imediata
+        var sel = window.getSelection();
+        if(sel && sel.rangeCount > 0){
+          var range = sel.getRangeAt(0);
+          range.deleteContents();
+          var tempDiv = document.createElement('div');
+          tempDiv.innerHTML = clean;
+          var frag = document.createDocumentFragment();
+          var node;
+          while((node = tempDiv.firstChild)) frag.appendChild(node);
+          range.insertNode(frag);
+          // mover cursor para o fim
+          range.collapse(false);
+          sel.removeAllRanges();
+          sel.addRange(range);
+        } else {
+          edVis.innerHTML += clean;
+        }
       } else {
         var lines = text.split(/\r?\n/);
         lines.forEach(function(line, i){
@@ -616,8 +641,8 @@ Portaria SPA/MF Nº 693/25</textarea></div>
       blocksHtml+='<p style="font-size:16px;line-height:165%;font-weight:500;margin-top:16px;margin-bottom:16px;text-align:'+(block.dataset.align||'left')+';">'+content+'</p>';
     });
 
-    var btnHtml=(btnOn&&btnTxt&&btnLnk)
-      ?'<div style="margin-top:30px;text-align:center;"><a href="'+btnLnk+'"'+(btnTab?' target="_blank"':'')+' style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;background-color:'+btnBg+';color:'+btnTxtClr+';font-weight:900;padding:12px 30px;font-size:16px;border-radius:10px;border:3px solid '+btnBorder+';text-transform:uppercase;"><span style="max-width:100%;display:inline-block;line-height:120%;">'+esc(btnTxt)+'</span></a></div>'
+    var btnHtml=(btnOn&&btnTxt)
+      ?'<div style="margin-top:30px;text-align:center;"><a href="'+(btnLnk||'#')+'"'+(btnTab&&btnLnk?' target="_blank"':'')+' style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;background-color:'+btnBg+';color:'+btnTxtClr+';font-weight:900;padding:12px 30px;font-size:16px;border-radius:10px;border:3px solid '+btnBorder+';text-transform:uppercase;"><span style="max-width:100%;display:inline-block;line-height:120%;">'+esc(btnTxt)+'</span></a></div>'
       :'';
 
     var footerCard='';
@@ -691,6 +716,68 @@ Portaria SPA/MF Nº 693/25</textarea></div>
         btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copiar HTML';
       },2500);
     });
+  };
+
+  /* ── NOVO EMAIL ── */
+  window.novoEmail = function(){
+    if(!confirm('Resetar tudo e começar um novo e-mail?')) return;
+
+    // limpar campos de texto
+    ['previewText','logoUrl','logoLink','bannerUrl','bannerLink','titleText','btnText','btnLink',
+     'btnBgHex','btnTxtHex','btnBorderHex','bgHex','cardVerdeHex','cardBgHex','cardBorderHex',
+     'titleColorHex','footerSocialText','footerUnsub','instaUrl','teleUrl','ytUrl'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) el.value = '';
+    });
+
+    // restaurar defaults de cor
+    document.getElementById('btnBgHex').value = '#f4d303';
+    document.getElementById('btnBgColor').value = '#f4d303';
+    document.getElementById('btnTxtHex').value = '#242424';
+    document.getElementById('btnTxtColor').value = '#242424';
+    document.getElementById('btnBorderHex').value = '#000000';
+    document.getElementById('btnBorderColor').value = '#000000';
+    document.getElementById('bgHex').value = '#002d14';
+    document.getElementById('bgColor').value = '#002d14';
+    document.getElementById('cardVerdeHex').value = '#004409';
+    document.getElementById('cardVerdeColor').value = '#004409';
+    document.getElementById('cardBgHex').value = '#f9f9fa';
+    document.getElementById('cardBgColor').value = '#f9f9fa';
+    document.getElementById('cardBorderHex').value = '#e1e1e6';
+    document.getElementById('cardBorderColor').value = '#e1e1e6';
+    document.getElementById('titleColorHex').value = '#242424';
+    document.getElementById('titleColor').value = '#242424';
+
+    // restaurar logo padrão
+    document.getElementById('logoUrl').value = 'https://static5.smr.vc/efdae8e354ffda834bd6ad-LOGOJOGODEOURO.png';
+    document.getElementById('titleText').value = 'Ola, {{state.user_first_name}}!';
+    document.getElementById('footerSocialText').value = 'Fique de olho nas nossas redes sociais e nao perca nada!';
+    document.getElementById('footerUnsub').value = 'Se quiser parar de receber nossas novidades e promocoes exclusivas,';
+    document.getElementById('instaUrl').value = 'https://www.instagram.com/jogodeourobet/';
+    document.getElementById('teleUrl').value = 'https://t.me/jogodeourovip';
+    document.getElementById('ytUrl').value = 'https://www.youtube.com/@JogoDeOuro';
+
+    // resetar checkboxes
+    ['logoEnabled','titleEnabled','footerEnabled','instaOn','teleOn','ytOn'].forEach(function(id){
+      document.getElementById(id).checked = true;
+    });
+    ['btnEnabled'].forEach(function(id){
+      document.getElementById(id).checked = false;
+    });
+    toggleOpt('logoEnabled','logoFields','logoBlock');
+    toggleOpt('titleEnabled','titleFields','titleBlock');
+    toggleOpt('btnEnabled','btnFields','btnBlock');
+    toggleOpt('footerEnabled','footerFields','footerBlock');
+
+    // restaurar textarea legal
+    document.getElementById('footerLegal').value = '*Destinado para maiores de 18 anos. Jogue com responsabilidade.*\nPortaria SPA/MF Nº 693/25';
+    autoResize(document.getElementById('footerLegal'));
+
+    // limpar e recriar blocos
+    document.getElementById('blocksContainer').innerHTML = '';
+    blockCount = 0;
+    addBlock();
+    updatePreview();
   };
 
   /* ── INIT ── */
