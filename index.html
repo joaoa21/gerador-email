@@ -362,6 +362,8 @@ Portaria SPA/MF Nº 693/25</textarea></div>
     document.getElementById('btnDesktop').classList.toggle('active',mode==='desktop');
     document.getElementById('btnMobile').classList.toggle('active',mode==='mobile');
     document.getElementById('previewWrap').classList.toggle('mobile',mode==='mobile');
+    // aguarda a transição de largura (300ms) e recalcula a altura do iframe
+    setTimeout(function(){ updatePreview(); }, 320);
   };
 
   /* ── CLEAN PASTED HTML ── */
@@ -533,9 +535,13 @@ Portaria SPA/MF Nº 693/25</textarea></div>
         var clean = cleanPastedHTML(html);
         document.execCommand('insertHTML', false, clean);
       } else {
-        document.execCommand('insertText', false, text);
+        var lines = text.split(/\r?\n/);
+        lines.forEach(function(line, i){
+          document.execCommand('insertText', false, line);
+          if(i < lines.length - 1) document.execCommand('insertParagraph', false, null);
+        });
       }
-      updatePreview();
+      setTimeout(function(){ updatePreview(); }, 0);
     });
 
     edVis.addEventListener('input', function(){ updatePreview(); });
